@@ -44,10 +44,19 @@ void FluidDynamicsBuilder::addBoundaryCondition(
     { // must be oriented box for emitter
         auto &emitter = fluid_body.addBodyPart<OrientedBoxByParticle>(oriented_box);
         auto &inflow_condition = main_methods.addParticleDynamicsGroup();
-        inflow_condition.add(&main_methods.template addStateDynamics<
-                              EmitterInflowConditionCK, ConstantInflowSpeed>(
-            emitter, scaling_config.jsonToReal(config.at("inflow_speed"), "Speed")));
-
+        if (config.contains("inflow_speed"))
+        {
+            inflow_condition.add(&main_methods.template addStateDynamics<
+                                  EmitterInflowConditionCK, ConstantInflowSpeed>(
+                emitter, scaling_config.jsonToReal(config.at("inflow_speed"), "Speed")));
+        }
+#ifdef SPHINXSIM_PROJECT
+        else
+        {
+            addExtraInflowSpeed(config_manager,main_methods, fluid_body,
+                emitter,inflow_condition,config);
+        }
+#endif
         auto &fix_constraint = main_methods.template addStateDynamics<
             FixConstraintCK>(emitter);
         auto &injection = main_methods.template addStateDynamics<

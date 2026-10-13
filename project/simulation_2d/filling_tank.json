@@ -110,17 +110,18 @@
       "inflow_speed": 0.4,
       "on_schedule": {
         "switch_on_time": 1.0,
-        "duration": 7.0
+        "duration": 8
       },
       "riser_check": {
         "oriented_box": "RiserCheck",
-        "target_height": 0.3500
+        "target_height": 0.3500,
+        "riser_bottom_height": 0.25
       }
     }
   ],
   "gravity": [ 0.0, -9.81 ],
   "solver_parameters": {
-    "end_time": 8.0,
+    "end_time": 8,
     "output_interval": 0.1,
     "screen_interval": 100,
     "fluid_dynamics": {

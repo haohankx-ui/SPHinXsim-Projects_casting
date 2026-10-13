@@ -803,12 +803,17 @@ class StartupAccelerationConfig(BaseModel):
     target_velocity: List[float] = Field(min_length=2, max_length=3)
     duration: float = Field(gt=0, allow_inf_nan=False)
 
+class CastingSpeedConfig(BaseModel):
+    normal_speed: float = Field(..., gt=0)
+    triggered_speed: float = Field(..., gt=0)
 
 class FluidBoundaryConditionConfig(BaseModel):
     body_name: str = Field(..., min_length=1)
     oriented_box: str = Field(..., min_length=1)
     type: FluidBoundaryConditionType
     inflow_speed: Optional[float] = Field(default=None, gt=0)
+    riser_check: Optional[dict] = None
+    casting_speed: Optional[dict] = None
     pressure: Optional[float] = None
     velocity: Optional[ParabolicVelocityConfig] = None
     mass_fractions: Optional[List[float]] = None
@@ -829,8 +834,8 @@ class FluidBoundaryConditionConfig(BaseModel):
             or self.t_ref is None
         ):
             raise ValueError("free_stream boundary condition requires buffer_box, disposer_box, target_speed and t_ref")
-        if self.type == FluidBoundaryConditionType.EMITTER and self.inflow_speed is None:
-            raise ValueError("emitter boundary condition requires inflow_speed")
+        if (self.type == FluidBoundaryConditionType.EMITTER and self.inflow_speed is None and self.casting_speed is None):
+            raise ValueError("emitter boundary condition requires a speed configuration")
         if self.type == FluidBoundaryConditionType.BI_DIRECTIONAL:
             if (self.pressure is None) == (self.velocity is None):
                 raise ValueError("bi_directional boundary condition requires exactly one of pressure or velocity")

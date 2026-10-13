@@ -9,6 +9,8 @@
 
 #include "base_simulation_builder.h"
 #include "simulation_scaling.h"
+#include "casting_inflow_speed.h"
+
 //=================================================================================================//
 namespace SPH
 {
@@ -31,6 +33,13 @@ void addExtraEmitterFeatures(
     EntityManager &config_manager, MainMethods &main_methods,
     FluidBody &fluid_body, FluidSolverConfig &fluid_solver_config,
     StagePipeline<SimulationHookPoint> &simulation_pipeline,const json &config);
+//=================================================================================================//
+class OrientedBoxByParticle;
+void addExtraInflowSpeed(
+    EntityManager &config_manager, MainMethods &main_methods,
+    FluidBody &fluid_body,OrientedBoxByParticle &emitter,
+    ParticleDynamicsGroup &inflow_condition,
+    const json &config);
 //=================================================================================================//
 } // namespace SPH
 #endif // SPHINXSIM_PROJECT_H

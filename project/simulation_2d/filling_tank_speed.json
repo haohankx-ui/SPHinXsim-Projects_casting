@@ -15,8 +15,8 @@
 
   "geometries": {
     "system_domain": {
-      "lower_bound": [ -0.270, -0.170 ],
-      "upper_bound": [ 0.270, 0.430 ]
+      "lower_bound": [-0.270, -0.170],
+      "upper_bound": [0.270, 0.430]
     },
     "global_resolution": {
       "particle_spacing": 0.005
@@ -25,8 +25,8 @@
       {
         "name": "WaterBody",
         "type": "bounding_box",
-        "lower_bound": [ -0.1851, 0.3801 ],
-        "upper_bound": [ -0.1507, 0.4050 ]
+        "lower_bound": [-0.1851, 0.3801],
+        "upper_bound": [-0.1507, 0.4050]
       },
       {
         "name": "WallBoundary",
@@ -49,18 +49,18 @@
       {
         "name": "Emitter",
         "type": "region",
-        "half_size": [ 0.01245, 0.0172 ],
+        "half_size": [0.01245, 0.0172],
         "transform": {
-          "translation": [ -0.1679, 0.39255 ],
+          "translation": [-0.1679, 0.39255],
           "rotation_angle": -1.57079632679
         }
       },
       {
         "name": "RiserCheck",
         "type": "region",
-        "half_size": [ 0.022, 0.04 ],
+        "half_size": [0.022, 0.056],
         "transform": {
-          "translation": [ 0.0, 0.31 ],
+          "translation": [0.0, 0.3],
           "rotation_angle": 0.0
         }
       }
@@ -89,7 +89,7 @@
       "material": {
         "type": "weakly_compressible_fluid",
         "density": 2357.0,
-        "viscosity": 0.1
+        "viscosity": 0.00124
       },
       "particle_reserve_factor": 500.0
     }
@@ -107,27 +107,32 @@
       "body_name": "WaterBody",
       "oriented_box": "Emitter",
       "type": "emitter",
-      "inflow_speed": 0.2,
+      "casting_speed": {
+        "normal_speed": 0.4,
+        "triggered_speed": 0.1
+      },
       "on_schedule": {
         "switch_on_time": 1.0,
-        "duration": 15.0
+        "duration": 8.0
       },
       "riser_check": {
         "oriented_box": "RiserCheck",
-        "target_height": 0.3500
+        "target_height": 0.3500,
+        "riser_bottom_height": 0.25
       }
     }
   ],
-  "gravity": [ 0.0, -9.81 ],
+  "gravity": [0.0, -9.81],
   "solver_parameters": {
-    "end_time": 15.0,
+    "end_time": 10.0,
     "output_interval": 0.1,
     "screen_interval": 100,
     "fluid_dynamics": {
       "acoustic_cfl": 0.6,
       "advection_cfl": 0.25,
       "surface_type": "free_surface",
-      "particle_sort_frequency": 100
+      "particle_sort_frequency": 100,
+      "kernel_correction": "none"
     }
   }
 }
