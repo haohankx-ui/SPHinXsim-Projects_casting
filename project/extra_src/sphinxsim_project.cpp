@@ -1,11 +1,6 @@
+#include "sphinxsys.h"
 #include "sphinxsim_project.h"
 #include "riser_check.h"
-#include "sphinxsys_entity.h"
-#include "base_body.hpp"
-#include "predefined_bodies.h"
-#include "sph_system.h"
-#include "casting_inflow_speed.h"
-#include "emitter_boundary_ck.hpp"
 
 #include <iostream>
 namespace SPH

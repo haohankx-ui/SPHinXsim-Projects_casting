@@ -1,10 +1,5 @@
+#include "sphinxsys.h"
 #include "riser_check.h"
-
-#include "sphinxsys_entity.h"
-#include "predefined_bodies.h"
-#include "base_body_part.h"
-#include "complex_geometry.h"
-#include "general_reduce_ck.hpp"
 
 namespace SPH
 {
