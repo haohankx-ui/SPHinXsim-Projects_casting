@@ -26,8 +26,8 @@ void addExtraEmitterFeatures(
         auto *sv_physical_time = &fluid_body.getSPHSystem().svPhysicalTime();
         auto *sv_riser_lower_triggertime =fluid_body.getSPHSystem().registerSystemVariable<Real>(
                 "RiserLowerTriggertime", -1.0);
-        Real target_height =scaling_config.jsonToReal(
-                riser_config.at("target_height"),
+        Real riser_top_height =scaling_config.jsonToReal(
+                riser_config.at("riser_top_height"),
                 "Length");
         Real riser_bottom_height = scaling_config.jsonToReal(
                 riser_config.at("riser_bottom_height"),
@@ -40,7 +40,7 @@ void addExtraEmitterFeatures(
              sv_riser_lower_triggertime,
              sv_physical_time,
              riser_bottom_height,
-             target_height]()
+             riser_top_height]()
             {
                 Real current_height = riser_fluid_height.exec();
                
@@ -51,7 +51,7 @@ void addExtraEmitterFeatures(
                         sv_physical_time->getValue());
                 }
                 if (fluid_solver_config.emitter_on_ &&
-                    current_height >= target_height)
+                    current_height >= riser_top_height)
                 {
                     fluid_solver_config.emitter_on_ = false;
 
@@ -63,19 +63,22 @@ void addExtraEmitterFeatures(
 //=================================================================================================//
 void addExtraInflowSpeed(
     EntityManager &config_manager, MainMethods &main_methods, FluidBody &fluid_body,
-    OrientedBoxByParticle &emitter, ParticleDynamicsGroup &inflow_condition,
-    const json &config)
+    OrientedBoxByParticle &emitter, ParticleDynamicsGroup &inflow_condition,const json &config)
 {
     const json &speed_config = config.at("casting_speed");
     auto &scaling_config = config_manager.getEntity<ScalingConfig>("ScalingConfig");
     Real normal_speed = scaling_config.jsonToReal(speed_config.at("normal_speed"), "Speed");
     Real triggered_speed = scaling_config.jsonToReal(speed_config.at("triggered_speed"), "Speed");
+    Real deceleration_time = 0.5;
+    if (speed_config.contains("deceleration_time"))
+    {
+        deceleration_time =scaling_config.jsonToReal(speed_config.at("deceleration_time"), "Time");
+    }
     auto *sv_riser_lower_triggertime = fluid_body.getSPHSystem()
                                            .registerSystemVariable<Real>("RiserLowerTriggertime", -1.0);
-
     inflow_condition.add(&main_methods.template addStateDynamics<
                           fluid_dynamics::EmitterInflowConditionCK, CastingInflowSpeed>(
-        emitter, normal_speed, triggered_speed, sv_riser_lower_triggertime->Data()));
+        emitter, normal_speed, triggered_speed, deceleration_time, sv_riser_lower_triggertime->Data()));
 }
 //=================================================================================================//
 } // namespace SPH
