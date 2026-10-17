@@ -1,0 +1,135 @@
+{
+  "characteristic_dimensions": [
+    {
+      "value": 0.5,
+      "name": "Length",
+      "hint": "geometries.system_domain.upper_bound"
+    },
+    {
+      "value": 2357.0,
+      "name": "Density",
+      "hint": "fluid_bodies[name=WaterBody].material.density"
+    }
+  ],
+  "simulation_type": "fluid_dynamics",
+
+  "geometries": {
+    "system_domain": {
+      "lower_bound": [ -0.270, -0.170,-0.270 ],
+      "upper_bound": [ 0.270, 0.430,0.270 ]
+    },
+    "global_resolution": {
+      "particle_spacing": 0.005
+    },
+    "shapes": [
+      {
+        "name": "WaterBody",
+        "type": "cylinder",
+        "radius": 0.020,
+        "half_height": 0.0125,
+        "transform": {
+          "translation": [ -0.168, 0.3925, 0.0 ],
+          "rotation_angle": -1.57079632679,
+          "rotation_axis": [ 0.0, 0.0, 1.0 ]
+        }
+      },
+      {
+        "name": "WallBoundary",
+        "type": "triangle_mesh",
+        "file_name": "sph1.stl",
+        "scale": 0.001
+      }   
+    ],
+    "oriented_boxes": [
+      {
+        "name": "Emitter",
+        "type": "region",
+        "half_size": [ 0.0125, 0.020, 0.020 ],
+        "transform": {
+          "translation": [ -0.168, 0.3925, 0.0 ],
+          "rotation_angle": -1.57079632679,
+          "rotation_axis": [ 0.0, 0.0, 1.0 ]
+        }
+      },
+      {
+        "name": "RiserCheck",
+        "type": "region",
+        "half_size": [ 0.022, 0.056,0.022 ],
+        "transform": {
+          "translation": [ 0.0, 0.3, 0.0 ],
+          "rotation_angle": 0.0,
+          "rotation_axis": [ 0.0, 0.0, 1.0 ]
+        }
+      }
+    ]
+  },
+  "particle_generation": {
+    "build_and_run": true,
+    "settings": {
+      "bodies": [
+        {
+          "name": "WaterBody"
+        },
+        {
+          "name": "WallBoundary",
+          "solid_body": {}
+        }
+      ],
+      "relaxation_parameters": {
+        "total_iterations": 1000
+      }
+    }
+  },
+  "fluid_bodies": [
+    {
+      "name": "WaterBody",
+      "material": {
+        "type": "weakly_compressible_fluid",
+        "density": 2357.0,
+        "viscosity": 0.00124
+      },
+      "particle_reserve_factor": 500.0
+    }
+  ],
+  "solid_bodies": [
+    {
+      "name": "WallBoundary",
+      "material": {
+        "type": "rigid_body"
+      }
+    }
+  ],
+  "fluid_boundary_conditions": [
+    {
+      "body_name": "WaterBody",
+      "oriented_box": "Emitter",
+      "type": "emitter",
+      "inflow_speed": 0.5,
+      "on_schedule": {
+        "switch_on_time": 1.0,
+        "duration": 19.0
+      },
+      "casting_speed": {
+        "normal_speed": 0.4,
+        "triggered_speed": 0.1
+      },
+      "riser_check": {
+        "oriented_box": "RiserCheck",
+        "riser_top_height": 0.3500,
+        "riser_bottom_height": 0.25
+      }
+    }
+  ],
+  "gravity": [ 0.0, -9.81,0.0],
+  "solver_parameters": {
+    "end_time": 20.0,
+    "output_interval": 0.1,
+    "screen_interval": 100,
+    "fluid_dynamics": {
+      "acoustic_cfl": 0.6,
+      "advection_cfl": 0.25,
+      "surface_type": "free_surface",
+      "particle_sort_frequency": 100
+    }
+  }
+}

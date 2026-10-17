@@ -16,7 +16,7 @@ namespace SPH
 
         auto& riser_check = fluid_body.addBodyPart<OrientedBoxByCell>(oriented_box);
         auto& riser_fluid_height = main_methods.addReduceDynamics<UpperFrontInAxisDirectionCK>(
-                riser_check, "RiserFluidHeight");
+                riser_check, "RiserFluidHeight",1);
 
         return riser_fluid_height;
     }
