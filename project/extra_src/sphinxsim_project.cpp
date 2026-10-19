@@ -69,11 +69,9 @@ void addExtraInflowSpeed(
     auto &scaling_config = config_manager.getEntity<ScalingConfig>("ScalingConfig");
     Real normal_speed = scaling_config.jsonToReal(speed_config.at("normal_speed"), "Speed");
     Real triggered_speed = scaling_config.jsonToReal(speed_config.at("triggered_speed"), "Speed");
-    Real deceleration_time = 0.5;
-    if (speed_config.contains("deceleration_time"))
-    {
-        deceleration_time =scaling_config.jsonToReal(speed_config.at("deceleration_time"), "Time");
-    }
+    Real deceleration_seconds =speed_config.value("deceleration_time", Real(0.5));
+    Real deceleration_time = scaling_config.jsonToReal(json(deceleration_seconds), "Time");
+
     auto *sv_riser_lower_triggertime = fluid_body.getSPHSystem()
                                            .registerSystemVariable<Real>("RiserLowerTriggertime", -1.0);
     inflow_condition.add(&main_methods.template addStateDynamics<
