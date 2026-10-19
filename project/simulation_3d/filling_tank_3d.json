@@ -1,9 +1,14 @@
 {
   "characteristic_dimensions": [
     {
-      "value": 0.5,
+      "value": 0.1,
       "name": "Length",
       "hint": "geometries.system_domain.upper_bound"
+    },
+    {
+      "value": 9.81,
+      "name": "Gravity",
+      "hint": "gravity"
     },
     {
       "value": 2357.0,
