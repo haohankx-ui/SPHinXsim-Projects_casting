@@ -91,6 +91,7 @@
   "fluid_bodies": [
     {
       "name": "WaterBody",
+      "surface_type": "free_surface",
       "material": {
         "type": "weakly_compressible_fluid",
         "density": 2357.0,
@@ -122,7 +123,7 @@
       },
       "riser_check": {
         "oriented_box": "RiserCheck",
-        "riser_top_height": 0.3500,
+        "riser_top_height": 0.34,
         "riser_bottom_height": 0.25
       }
     }
@@ -136,7 +137,6 @@
     "fluid_dynamics": {
       "acoustic_cfl": 0.6,
       "advection_cfl": 0.25,
-      "surface_type": "free_surface",
       "particle_sort_frequency": 100,
       "kernel_correction": "none"
     }

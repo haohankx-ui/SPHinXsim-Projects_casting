@@ -54,9 +54,9 @@
       {
         "name": "Emitter",
         "type": "region",
-        "half_size": [ 0.01245, 0.0172 ],
+        "half_size": [0.01245, 0.0172],
         "transform": {
-          "translation": [ -0.1679, 0.39255 ],
+          "translation": [-0.1679, 0.39255],
           "rotation_angle": -1.57079632679
         }
       },
@@ -71,12 +71,10 @@
       },
       {
         "name": "Disposer",
-        "type": "region",
-        "half_size": [0.022, 0.015],
-        "transform": {
-          "translation": [0.0, 0.365],
-          "rotation_angle": 0.0
-        }
+        "type": "boundary",
+        "center": [0.0, 0.35],
+        "normal": [0.0, 1.0],
+        "radius": 0.002
       }
     ]
   },
@@ -100,6 +98,7 @@
   "fluid_bodies": [
     {
       "name": "WaterBody",
+      "surface_type": "free_surface",
       "material": {
         "type": "weakly_compressible_fluid",
         "density": 2357.0,
@@ -131,10 +130,10 @@
       },
       "riser_check": {
         "oriented_box": "RiserCheck",
-        "riser_top_height": 0.3500,
+        "riser_top_height": 0.34,
         "riser_bottom_height": 0.25
-      }
-    },
+       }
+      },
     {
       "body_name": "WaterBody",
       "oriented_box": "Disposer",
@@ -149,7 +148,6 @@
     "fluid_dynamics": {
       "acoustic_cfl": 0.6,
       "advection_cfl": 0.25,
-      "surface_type": "free_surface",
       "particle_sort_frequency": 100,
       "kernel_correction": "none"
     }

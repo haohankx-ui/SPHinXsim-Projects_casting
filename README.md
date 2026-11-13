@@ -51,21 +51,62 @@ You should still branch it from the `main` which already provides an empty templ
 Although this repository is a fork of SPHinXsim, we maintain it independently.
 Project branches are never pushed back to the upstream SPHinXsim repository.
 
-To keep the main history clean and to control how upstream changes enter the projects, we use two special branches:
+SPHinXsim is the agent-ready simulation platform for [SPHinXsys](https://github.com/Xiangyu-Hu/SPHinXsys): a structured, automation-friendly interface for building, validating, and running high-fidelity multi-physics simulations.
 
-- `main` – tracks the upstream SPHinXsim. No direct contributions from project branches are allowed. It is the only branch that is allowed to receive updates from upstream. Note that the change to the templated project structure are made only by maintainers through a dedicated process, not via merging project branches.
+From a single specification, users and external agents can validate inputs, generate CAD geometry, compile native configurations, launch simulations, and inspect verified results through one consistent CLI and MCP workflow.
 
-All project branches must follow these rules:
+### Built for people and autonomous workflows
 
-- Create project branches exclusively from `main`.
-- The only allowed merge from a shared branch is merging `main` into your project branch (to pick up template updates).
-- Never merge a project branch directly into `main`.
-- Never merge one project branch into another project branch.
+* JSON-first simulation design with a single source of truth
+* Native CLI, shell, and MCP interfaces for interactive and automated use
+* CAD-driven geometry generation and validation before execution
+* Optional Python integration via pybind11 for embedded workflows
+* Visualization and result inspection with [PyVista](https://pyvista.org/)
+* Heterogeneous CPU/GPU execution with [SYCL](https://www.khronos.org/sycl/)
 
-This workflow ensures that:
+### SPHinXsim Agent
 
-- Project branches remain isolated from each other and from the upstream history.
-- Upstream changes flow only through `main`, which is a clone of the `main` branch from the main SPHinXsim repository.
+The newest workflow makes `sphinxsim` itself the execution layer for both human operators and external agents. There is no separate proprietary agent runtime or cloud-only control plane; the same native application operations are exposed through the shell, the CLI, and the Model Context Protocol (MCP).
+
+This enables powerful agent-driven workflows such as:
+
+* schema validation and simulation input checking,
+* CAD generation and geometry review,
+* compilation of native simulation configurations,
+* persistent execution and job management,
+* result inspection and verified resource publication.
+
+For the complete workflow, installation guidance, and MCP configuration, see [Native CLI and external agents](docs/agent-workflows.md).
+
+## Quick start
+
+```bash
+python -m pip install -e '.[dev,cad,mcp,results,visualization]'
+sphinxsim --help
+python -m sphinxsim --help
+```
+
+### Interface options
+
+```bash
+# Shell / terminal workflow
+sphinxsim capabilities --json
+sphinxsim validate project/config.json --root /workspace --json
+
+# Python / CLI entry point
+python -m sphinxsim --help
+
+# MCP / external agent workflow
+sphinxsim mcp --root /workspace
+```
+
+## Installation, tutorials, and documentation
+
+SPHinXsim is cross-platform and can be built and used on Windows, Linux, and macOS.
+
+For installation guides, tutorials, and the project manual, visit <https://xiangyu-hu.github.io/SPHinXsim/>.
+
+For native shell usage, CLI workflows, CAD generation, and optional MCP/agent integration, see [Native CLI and external agents](docs/agent-workflows.md).
 
 ## Contributing to a Project
 
@@ -82,9 +123,13 @@ If you find that source code in `extra_src` is useful for other projects and you
 
 If you are a core developer or a collaborator of the SPHinXsim, you can commit directly a feature branch to SPHinXsim  in the main SPHinXsim repository and push your changes there without forking SPHinXsim repository. For this, you set the main SPHinXsim repository as a remote and push your changes to it.
 
-Please note that, in this case, you you need to work on branches created from `main` and follow the SPHinXsim contribution guidelines.
-Please **DO NOT** try to make pull request from the project branch.
-Instead, the contribution needs to be moved from the `project/extra_src` folder to a proper subfolder of `sphinxsim` folder and equipped with its own tests and documentation other than those in the project.
+#### For academic SPHinXsim users
+
+If you are using SPHinXsim in your research, we would be grateful if you could cite our work in your publications. 
+For this, we are happy to help you solve any issues you may encounter with SPHinXsim. Please contact us at <xiangyu.hu@tum.de>.
+
+
+#### For SPHinXsim developers
 
 It is essential to indicate from which project the contribution origins in the pull request summary. Otherwise the pull requested will not even be reviewed.
 

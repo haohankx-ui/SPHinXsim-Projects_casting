@@ -68,6 +68,13 @@
 					"translation": [ 0.0, 0.3 ],
 					"rotation_angle": 0.0
 				}
+			},
+			{
+				"name": "Disposer",
+				"type": "boundary",
+				"center": [ 0.0, 0.35 ],
+				"normal": [ 0.0, 1.0 ],
+				"radius": 0.002
 			}
 		]
 	},
@@ -84,7 +91,7 @@
 					"relaxation": {
 						"level_set": {}
 					}
-					}
+				}
 			],
 			"relaxation_parameters": {
 				"total_iterations": 1000
@@ -94,6 +101,7 @@
 	"fluid_bodies": [
 		{
 			"name": "AluminumBody",
+			"surface_type": "free_surface",
 			"material": {
 				"type": "weakly_compressible_fluid",
 				"density": 2357.0,
@@ -132,9 +140,14 @@
 			},
 			"riser_check": {
 				"oriented_box": "RiserCheck",
-				"riser_top_height": 0.3500,
+				"riser_top_height": 0.34,
 				"riser_bottom_height": 0.25
-			}
+			  }
+		 },
+		{
+			"body_name": "AluminumBody",
+			"oriented_box": "Disposer",
+			"type": "disposer"
 		}
 	],
 	"initial_conditions": [
@@ -169,7 +182,6 @@
 		"fluid_dynamics": {
 			"acoustic_cfl": 0.6,
 			"advection_cfl": 0.25,
-			"surface_type": "free_surface",
 			"particle_sort_frequency": 100,
 			"kernel_correction": "none"
 		}
