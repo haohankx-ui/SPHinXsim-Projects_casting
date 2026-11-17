@@ -161,8 +161,7 @@
     {
       "name": "integrated-build-release-windows",
       "displayName": "Build Integrated SPHinXsys + Python Release Windows",
-      "configurePreset": "integrated-build-release-windows",
-      "jobs": 1
+      "configurePreset": "integrated-build-release-windows"
     },
     {
       "name": "integrated-build-debug-windows",
