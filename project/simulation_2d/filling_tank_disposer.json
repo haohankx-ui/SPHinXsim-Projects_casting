@@ -79,8 +79,6 @@
     ]
   },
   "particle_generation": {
-    "build_and_run": true,
-    "settings": {
       "bodies": [
         {
           "name": "WaterBody"
@@ -93,7 +91,6 @@
       "relaxation_parameters": {
         "total_iterations": 1000
       }
-    }
   },
   "fluid_bodies": [
     {

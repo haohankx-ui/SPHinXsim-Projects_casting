@@ -99,8 +99,6 @@
 		]
 	},
 	"particle_generation": {
-		"build_and_run": true,
-		"settings": {
 			"bodies": [
 				{
 					"name": "AluminumBody"
@@ -116,7 +114,6 @@
 			"relaxation_parameters": {
 				"total_iterations": 1000
 			}
-		}
 	},
 	"fluid_bodies": [
 		{
@@ -138,7 +135,8 @@
 			"surface_type": "free_surface",
 			"material": {
 				"type": "weakly_compressible_fluid",
-				"density": 0.001
+				"density": 1.18,
+				"viscosity": 0.0000185
 			}
 		}
 	],
@@ -213,7 +211,7 @@
 	],
 	"gravity": [ 0.0, -9.81 ],
 	"solver_parameters": {
-		"end_time": 5.0,
+		"end_time": 2.0,
 		"output_interval": 0.1,
 		"screen_interval": 100,
 		"fluid_dynamics": {

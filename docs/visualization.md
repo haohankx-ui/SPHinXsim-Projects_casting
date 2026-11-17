@@ -24,7 +24,10 @@ pip install pyvistaqt PySide6
 The compiled C++ extension (`_sphinxsys_core_2d` or `_sphinxsys_core_3d`) is
 required for preview geometry generation. The preview always attempts to build
 VTP meshes first and automatically falls back to cached shape bounds when VTP
-files are not produced.
+files are not produced. If neither source can provide a configured shape, the
+preview stops with an error instead of opening an empty scene. Rebuild or update
+the SPHinXsim Python binding library if the native geometry is missing; rebuilding
+only the C++ projects may leave the Python binding out of date.
 
 ## What it shows
 
@@ -182,7 +185,8 @@ sphinxsim> replay
 
 If needed, replay opens the regular configuration preview, preserving the
 correct 2D/3D camera (including the orthographic XY view for 2D). Wait until
-`continue-to-run` has finished before starting replay.
+`continue-to-run` has finished before starting replay. Replay keeps the current
+camera framing fixed while the particle snapshots animate.
 
 `preview` requires a config to be loaded first (via `load` or `generate`).
 
@@ -276,8 +280,11 @@ When VTP files are not produced, the visualizer queries `getShapeBounds()` from
 the geometry builder and renders axis-aligned bounding boxes from the cached
 shape bounds.
 
-Both paths require the C++ extension.  If it is not installed, an `ImportError`
-is raised with an install hint.
+Both paths require the C++ extension. If geometry generation fails, or a shape
+has neither a readable VTP mesh nor cached bounds, the preview reports an error
+and does not show a partial/empty scene. If the extension is missing or
+incompatible, rebuild and reinstall the SPHinXsim Python binding as well as the
+C++ libraries.
 
 ## Shape types and VTP availability
 
